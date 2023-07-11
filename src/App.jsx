@@ -9,7 +9,7 @@ function App() {
   const [ location, setLocation ] = useState(''); // 검색어
   const [ open, setOpen ] = useState(false); // 검색창
   const [ error, setError ] = useState(false); // 에러상태
-  const cities = ['seoul', 'jeju', 'london', 'tokyo']; // 즐겨찾기 목록
+  const [ cityList, setCityList ] = useState(['seoul', 'jeju', 'london', 'tokyo']); // 즐겨찾기 목록
   const [ weather, setWeather ] = useState(null); // 날씨 데이터
   
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -112,7 +112,7 @@ function App() {
 
   // 즐겨찾기 목록 삭제
   const onRemove = (e) => {
-    setFavlist(favlist.filter(fav => fav !== e.target.getAttribute('fav')));
+    setCityList(cityList.filter(city => cityList.city !== e.target.getAttribute('city')));
   }
 
   return (
@@ -142,10 +142,12 @@ function App() {
             </div>
             <div className='itemList'>
               <WeatherButton 
-                cities={cities}
+                cityList={cityList}
                 activeCity={activeCity}
                 setActiveCity={setActiveCity}
                 handleCityChange={handleCityChange}
+                onRemove={onRemove}
+                key={city}
               />
             </div>
           </div>

@@ -1,7 +1,8 @@
 import React from 'react'
+import { GoNoEntry } from "react-icons/go";
 
-
-function WeatherButton({ cities, activeCity, handleCityChange }) {
+function WeatherButton({ cityList, activeCity, handleCityChange, 
+  onRemove }) {
 
   return (
     <>
@@ -9,12 +10,12 @@ function WeatherButton({ cities, activeCity, handleCityChange }) {
         <h3>내가 저장한 지역</h3>
         <button 
           className='btn_edit'
-          onClick={() => onRemove(city, i)}>
+          >
           <i className='ico_edit'>편집</i>
         </button>
       </div>
       <div className='itemList-body'>
-        {cities.map((city, i) => (
+        {cityList.map((city, i) => (
           <div className='itemList-inner'>
             <button
               key={i} 
@@ -22,10 +23,11 @@ function WeatherButton({ cities, activeCity, handleCityChange }) {
               className={`itemList-btn ${activeCity === city ? 'active' : ''}`}
             >{city}
             </button>
+            <GoNoEntry 
+              className='btn_delete' 
+              onClick={() => onRemove(city)}
+            />
           </div>
-          // <button className='btn_delete' onClick={onRemove}>
-          //   <i className='ico_delete'>삭제</i>
-          // </button>
         ))}
       </div>
     </>
