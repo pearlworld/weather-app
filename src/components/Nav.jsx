@@ -1,4 +1,6 @@
 import React from 'react'
+import { BsSearch } from "react-icons/bs"
+import { HiLocationMarker } from "react-icons/hi"
 
 function Nav({ open, setOpen, getCurrentLocation }) {
 
@@ -7,16 +9,16 @@ function Nav({ open, setOpen, getCurrentLocation }) {
       <nav id='nav'>
         <h1>Weather App</h1>
         <div className='btn-group'>
-          <button
-            className='btn_search' 
+          <BsSearch 
+            className='btn_search nav-btn' 
             onClick={
               () => { setOpen(!open) }
-            }
-          ><i className='ico_search'>검색</i></button>
-          <button
-            className='btn_location' 
+            }  
+          />
+          <HiLocationMarker 
+            className='btn_location nav-btn'
             onClick={getCurrentLocation}
-          ><i className='ico_location'>내 위치</i></button>
+          />
         </div>
       </nav>
     </div>

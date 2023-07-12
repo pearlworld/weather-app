@@ -1,34 +1,44 @@
 import React from 'react'
-import { GoNoEntry } from "react-icons/go";
+import { IoMdSettings } from "react-icons/io";
+
 
 function WeatherButton({ cityList, activeCity, handleCityChange, 
-  onRemove }) {
+  onRemove, edit, toggleEdit }) {
 
   return (
     <>
       <div className='itemList-head'>
         <h3>내가 저장한 지역</h3>
-        <button 
+        <IoMdSettings 
           className='btn_edit'
-          >
-          <i className='ico_edit'>편집</i>
-        </button>
+          onClick={toggleEdit} 
+        />
       </div>
       <div className='itemList-body'>
         {cityList.map((city, i) => (
-          <div className='itemList-inner'>
+          <div
+            key={city}
+            onClick={() => handleCityChange(city)}
+            className={`itemList-inner ${activeCity === city ? 'active' : ''}`}
+          >
             <button
               key={i} 
-              onClick={() => handleCityChange(city)}
-              className={`itemList-btn ${activeCity === city ? 'active' : ''}`}
+              className='itemList-btn'
             >{city}
             </button>
-            <GoNoEntry 
-              className='btn_delete' 
-              onClick={() => onRemove(city)}
-            />
+            {
+              edit && (
+                <button
+                  className='btn_delete'
+                  onClick={() => onRemove(city)}
+                 ><i className='ico_delete'>삭제</i>
+                </button>
+              )
+            }
+            
           </div>
-        ))}
+          ))
+        }
       </div>
     </>
   );

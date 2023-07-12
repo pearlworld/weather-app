@@ -12,6 +12,7 @@ function App() {
   const [ cityList, setCityList ] = useState(['seoul', 'jeju', 'london', 'tokyo']); // 즐겨찾기 목록
   const [ weather, setWeather ] = useState(null); // 날씨 데이터
   
+  
   const apiKey = import.meta.env.VITE_API_KEY;
 
   // 현재 위치 불러오기
@@ -70,7 +71,6 @@ function App() {
         }
         setWeather(data);
       })
-
       .catch(() => {
         setError("날씨 정보를 가져올 수 없습니다.");
         console.log('에러');
@@ -111,9 +111,13 @@ function App() {
   }, [city]);
 
   // 즐겨찾기 목록 삭제
-  const onRemove = (e) => {
-    setCityList(cityList.filter(city => cityList.city !== e.target.getAttribute('city')));
+  const onRemove = (removedCity) => {
+    setCityList(cityList.filter(city => city !== removedCity));
   }
+
+  // 즐겨찾기 수정
+  const [ edit, setEdit ] = useState(false);
+  const toggleEdit = () => setEdit(!edit);
 
   return (
     <>
@@ -144,10 +148,11 @@ function App() {
               <WeatherButton 
                 cityList={cityList}
                 activeCity={activeCity}
-                setActiveCity={setActiveCity}
                 handleCityChange={handleCityChange}
                 onRemove={onRemove}
                 key={city}
+                edit={edit}
+                toggleEdit={toggleEdit}
               />
             </div>
           </div>
