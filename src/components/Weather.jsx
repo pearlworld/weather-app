@@ -3,23 +3,23 @@ import React from 'react'
 function Weather({ weather }) {
 
   return (
-    <>
+    <div>
       {
         weather && (
-          <>
-            <p className='iconBox'>
+          <div className='weather_inner'>
+            <p className='weather-icon'>
               <img 
-                className="img-fluid" 
+                className="icon-img" 
                 src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} 
               />
             </p>
-            <h3>{weather.name}</h3>
-            <p>현재 온도 : {(weather.main.temp-273.15).toFixed(1)}°C</p>
-            <p>날씨 : {weather.weather[0].description}</p>
-          </>
+            <h3 className='location'>{weather.name}</h3>
+            <p className='temp'>{(weather.main.temp-273.15).toFixed(1)}°C</p>
+            <p className='description'>{weather.weather[0].description}</p>
+          </div>
         )
       }
-    </>
+    </div>
   )
 }
 

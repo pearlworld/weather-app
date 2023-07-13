@@ -5,7 +5,7 @@ import { HiLocationMarker } from "react-icons/hi"
 function Nav({ open, setOpen, getCurrentLocation }) {
 
   return (
-    <div className='header_wrap'>
+    <div className='header_inner'>
       <nav id='nav'>
         <h1>Weather App</h1>
         <div className='btn-group'>

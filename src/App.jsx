@@ -110,12 +110,12 @@ function App() {
     }
   }, [city]);
 
-  // 즐겨찾기 목록 삭제
+  // 즐겨찾기 삭제 이벤트
   const onRemove = (removedCity) => {
     setCityList(cityList.filter(city => city !== removedCity));
   }
 
-  // 즐겨찾기 수정
+  // 즐겨찾기 수정 버튼
   const [ edit, setEdit ] = useState(false);
   const toggleEdit = () => setEdit(!edit);
 
@@ -140,11 +140,11 @@ function App() {
                 />
               ) : null
             }
-            <div className='weather-info'>
+            <div className='weather'>
               {weather && <Weather weather={weather} />}
               {error && <p>{error}</p>}
             </div>
-            <div className='itemList'>
+            <div className='myList'>
               <WeatherButton 
                 cityList={cityList}
                 activeCity={activeCity}
@@ -155,6 +155,7 @@ function App() {
                 toggleEdit={toggleEdit}
               />
             </div>
+            
           </div>
         </div>
       </main>
