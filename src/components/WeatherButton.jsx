@@ -16,7 +16,7 @@ function WeatherButton({ cityList, activeCity, handleCityChange,
     setRemoveActiveClass(true);
   }
 
-  // 즐찾도시 클릭 이벤트
+  // 즐겨찾기 클릭 이벤트
   const handleCityClick = (city) => {
     if (!disableClick) {
       handleCityChange(city);

@@ -12,7 +12,6 @@ function App() {
   const [ cityList, setCityList ] = useState(['seoul', 'jeju', 'london', 'tokyo']); // 즐겨찾기 목록
   const [ weather, setWeather ] = useState(null); // 날씨 데이터
   
-  
   const apiKey = import.meta.env.VITE_API_KEY;
 
   // 현재 위치 불러오기
@@ -63,7 +62,6 @@ function App() {
     fetch(url)
       .then(res => res.json())  // json포맷으로 변환
       .then(data => {
-        // 검색결과가 없을 때
         if(data.cod === '404') {
           setWeather(null);
           setError("올바른 지역명이 아닙니다.");
@@ -76,7 +74,8 @@ function App() {
         console.log('에러');
       })
   }
-  
+
+
   // 입력함수
   const handleLocationChange = (e) => { // e : 이벤트 발생
     setLocation(e.target.value);
@@ -87,9 +86,6 @@ function App() {
     e.preventDefault(); // 전송 이벤트 취소(기본 이벤트)
     fetchWeather(); // 날씨 데이터 요청
   }
-  useEffect(() => {
-    getCurrentLocation(); // 페이지가 로드될 때 현재 위치의 날씨를 가져옴
-  }, []);
 
   // 즐겨찾기 목록
   const [ city, setCity ] = useState('');
