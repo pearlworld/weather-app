@@ -64,7 +64,6 @@ function App() {
       .then(data => {
         if(data.cod === '404') {
           setWeather(null);
-          setError("올바른 지역명이 아닙니다.");
           return;
         }
         setWeather(data);
@@ -74,7 +73,6 @@ function App() {
         console.log('에러');
       })
   }
-
 
   // 입력함수
   const handleLocationChange = (e) => { // e : 이벤트 발생
@@ -137,7 +135,11 @@ function App() {
               ) : null
             }
             <div className='weather'>
-              {weather && <Weather weather={weather} />}
+              {weather ? 
+                <Weather 
+                  weather={weather} 
+                /> : <p className='err_msg'>날씨 정보가 없습니다.</p>
+              }
               {error && <p>{error}</p>}
             </div>
             <div className='myList'>

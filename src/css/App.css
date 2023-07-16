@@ -174,10 +174,12 @@ input {
 /* ------------------------
         날씨 검색결과 
 --------------------------*/
+.weather {
+  margin-bottom: 30px;
+}
 .weather_inner {
   display: block;
   margin-top: 20px;
-  padding-bottom: 30px;
   border-radius: 10px;
   box-sizing: border-box;
 }
@@ -344,8 +346,14 @@ input {
   color: #d8d8d8;
 }
 
-
-
+/* 에러메시지 */
+.err_msg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #fff;
+}
 
 
 

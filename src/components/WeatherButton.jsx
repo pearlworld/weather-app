@@ -20,7 +20,6 @@ function WeatherButton({ cityList, activeCity, handleCityChange,
   const handleCityClick = (city) => {
     if (!disableClick) {
       handleCityChange(city);
-      setDisableClick(!disableClick);
     }
   }
 
