@@ -183,6 +183,21 @@ input {
   border-radius: 10px;
   box-sizing: border-box;
 }
+.weather_main {
+  position: relative;
+}
+.weather_main .btn_add {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 30px;
+  background-color: #fff;
+  border: 1px solid #fff;
+}
 .weather_main .icon-img {
   width: 100px;
   height: 100px;
