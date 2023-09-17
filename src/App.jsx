@@ -112,8 +112,14 @@ function App() {
 
   // 즐겨찾기 추가 이벤트
   const onAdd = (newCity) => {
-    setActiveCity([...activeCity, newCity]);
+    setCityList([...setCityList, newCity]);
   };
+
+  // const onAdd = (newCity) => {
+  //   if (!cityList.includes(newCity)) {
+  //     setCityList([...cityList, newCity]); // 새로운 도시를 추가
+  //   }
+  // };
 
   // 즐겨찾기 삭제 이벤트
   const onRemove = (removedCity) => {
@@ -143,7 +149,9 @@ function App() {
             ) : null}
             <div className="weather">
               {weather ? (
-                <Weather weather={weather} onAdd={onAdd} />
+                <Weather 
+                  weather={weather} 
+                  onAdd={() => onAdd(location)} />
               ) : (
                 <p className="err_msg">날씨 정보가 없습니다.</p>
               )}
