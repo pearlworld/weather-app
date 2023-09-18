@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
 
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100vh;
   text-align: center;
@@ -16,12 +13,12 @@ body {
   background-attachment: fixed;
   box-sizing: border-box;
   min-width: 280px;
-  overflow: hidden;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   body {
     background-image: url(../img/background_m.jpg);
+    background-position: center bottom;
   }
 }
 
@@ -42,7 +39,7 @@ body {
   padding: 0;
 }
 button {
-  border-radius: 8px;
+  border-radius: 4px;
   margin: 0;
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 14px;
@@ -86,7 +83,7 @@ input {
   box-sizing: border-box;
 }
 .wrap {
-  max-width: 480px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
@@ -96,7 +93,7 @@ input {
   background-color: rgba(255, 255, 255, 0.19);
   border-radius: 10px;
 }
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .container {
     padding: 20px;
   }
@@ -145,11 +142,6 @@ input {
 #nav .btn-group button i {
   display: block;
 }
-@media (max-width: 480px) {
-  #nav {
-    padding-top: 0;
-  }
-}
 
 
 /* ------------------------
@@ -165,7 +157,7 @@ input {
 .search-input {
   display: block;
   height: 36px;
-  border-radius: 5px;
+  border-radius: 4px;
   border: 1px solid #fff;
   background-color: #fff;
   padding: 5px 10px;
@@ -173,13 +165,16 @@ input {
   line-height: 1;
   box-sizing: border-box;
 }
+.search-input:focus {
+  outline: none;
+}
 .search-btn {
   width: 70px;
   height: 36px;
   background-color: #333;
   color: #fff;
 }
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .search-input {
     width: calc(100% - 77px);
   }
@@ -197,7 +192,7 @@ input {
 }
 .weather_inner {
   display: block;
-  margin-top: 20px;
+  margin-top: 10px;
   border-radius: 10px;
   box-sizing: border-box;
 }
@@ -211,11 +206,12 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
+  width: 75px;
   height: 30px;
   background-color: #fff;
   border: 1px solid #fff;
   border-radius: 4px;
+  font-size: 13px;
 }
 .weather_main .icon-img {
   width: 100px;
@@ -278,7 +274,7 @@ input {
   font-size: 12px;
   color: #fff;
 }
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .weather_inner {
     margin-top: 0;
   }
@@ -296,6 +292,10 @@ input {
   }
 }
 
+/*  */
+.search-result_inner {
+  
+}
 
 
 /* ------------------------
@@ -346,6 +346,9 @@ input {
   position: relative;
   margin: 1%;
   border: 2px solid #eee;
+  background-image: linear-gradient(#fff, #fff);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
   border-radius: 40px;
   box-sizing: border-box;
 }
@@ -360,6 +363,7 @@ input {
   border-radius: 40px;
   font-size: 14px;
   color: #333;
+  text-transform: capitalize;
 }
 
 /* 활성화 시 */
@@ -367,8 +371,6 @@ input {
   border: 2px solid transparent;
   background-image: linear-gradient(#fff, #fff), 
     linear-gradient(to right, #ff4cd5aa, #0fb3ffc9);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
 }
 .myList_inner.active .myList-btn {
   background: linear-gradient(to right, #0099ffc9, #ff0095aa);
@@ -398,13 +400,12 @@ input {
 
 /* 에러메시지 */
 .err_msg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 200px;
+  line-height: 1.4rem;
   color: #fff;
+  font-size: 14px;
 }
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .myList-head {
     margin-bottom: 20px;
   }

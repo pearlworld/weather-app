@@ -1,9 +1,9 @@
 import React from "react";
 
-function Weather({ weather, onAdd }) {
+function Weather({ weather, onAdd,setActiveCity }) {
   const handleAdd = () => {
     onAdd(weather.name);
-    alert("추가 되었습니다.");
+    setActiveCity(weather.name);
   };
 
   return (

@@ -4,19 +4,21 @@ import Search from "./components/Search";
 import Weather from "./components/Weather";
 import WeatherButton from "./components/WeatherButton";
 import Nav from "./components/Nav";
+// import SearchResult from "./components/SearchResult";
 
 function App() {
   const [location, setLocation] = useState(""); // 검색어
   const [open, setOpen] = useState(false); // 검색창
   const [error, setError] = useState(false); // 에러상태
   const [cityList, setCityList] = useState([
-    "seoul",
-    "jeju",
+    "Seoul",
+    "Jeju City",
     "london",
-    "tokyo",
+    "Tokyo",
   ]); // 즐겨찾기 목록
   const [weather, setWeather] = useState(null); // 날씨 데이터
-
+  const [city, setCity] = useState(""); // 도시명
+  const [activeCity, setActiveCity] = useState(""); // 즐겨찾기 활성화
   const apiKey = import.meta.env.VITE_API_KEY;
 
   // 현재 위치 불러오기
@@ -45,15 +47,32 @@ function App() {
       });
   };
 
+  
+  // 즐겨찾기 목록
+  const handleCityChange = (city) => {
+    if (city === "current") {
+      setCity("");
+    } else {
+      setCity(city);
+      setActiveCity(city);
+    }
+  };
+  useEffect(() => {
+    if (city == "") {
+      getCurrentLocation();
+    } else {
+      getWeatherByCity();
+    }
+  }, [city]);
+
   // 내가 저장한 지역 날씨 불러오기
   const getWeatherByCity = () => {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&lang=kr`;
-
+  
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
         setWeather(data);
-        // console.log("현재 날씨는?", data);
       })
       .catch(() => {
         console.log("에러");
@@ -81,49 +100,33 @@ function App() {
 
   // 입력함수
   const handleLocationChange = (e) => {
-    // e : 이벤트 발생
     setLocation(e.target.value);
   };
 
   // 전송버튼
   const handleWeatherSearch = (e) => {
-    e.preventDefault(); // 전송 이벤트 취소(기본 이벤트)
-    fetchWeather(); // 날씨 데이터 요청
+    e.preventDefault();
+    fetchWeather();
+    setActiveCity(""); 
   };
-
-  // 즐겨찾기 목록
-  const [city, setCity] = useState("");
-  const [activeCity, setActiveCity] = useState("");
-  const handleCityChange = (city) => {
-    if (city === "current") {
-      setCity("");
-    } else {
-      setCity(city);
-      setActiveCity(city);
-    }
-  };
-  useEffect(() => {
-    if (city == "") {
-      getCurrentLocation();
-    } else {
-      getWeatherByCity();
-    }
-  }, [city]);
 
   // 즐겨찾기 추가 이벤트
   const onAdd = (newCity) => {
-    setCityList([...setCityList, newCity]);
+    if (!cityList.includes(newCity)) {
+      setCityList([...cityList, newCity]); // 새로운 도시를 추가
+      alert("추가되었습니다.");
+    } else {
+      alert("이미 저장한 지역입니다.");
+    }
   };
-
-  // const onAdd = (newCity) => {
-  //   if (!cityList.includes(newCity)) {
-  //     setCityList([...cityList, newCity]); // 새로운 도시를 추가
-  //   }
-  // };
 
   // 즐겨찾기 삭제 이벤트
   const onRemove = (removedCity) => {
-    setCityList(cityList.filter((city) => city !== removedCity));
+    const confirmDelete = window.confirm("선택한 지역을 삭제하시겠습니까?");
+    if (confirmDelete) {
+      setCityList(cityList.filter((city) => city !== removedCity));
+      alert("삭제되었습니다.");
+    }
   };
 
   // 즐겨찾기 수정 버튼
@@ -151,7 +154,9 @@ function App() {
               {weather ? (
                 <Weather 
                   weather={weather} 
-                  onAdd={() => onAdd(location)} />
+                  onAdd={onAdd} 
+                  setActiveCity={setActiveCity}
+                  />
               ) : (
                 <p className="err_msg">날씨 정보가 없습니다.</p>
               )}
