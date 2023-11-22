@@ -1,8 +1,16 @@
-# weather-app
+# 날씨 앱
 
-- 편집 버튼 토글 ✔
-- 즐겨찾기 삭제 기능 ✔
-- 즐겨찾기 추가 기능
-- 검색결과 없을시 콘솔 오류 ✔
-- 시간별 날씨
+- 프로젝트 : 전세계 날씨 정보 앱 <br />
+- 기획 및 제작 : 최진주 <br />
+- 제작기간 : 2023.09.03 ~ 2023.09.21 <br />
+
+## 🔗 링크
+https://weather-app-liard-gamma.vercel.app/
+
+## 🛠️ 기술
+
+![js](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![js](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![js](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![js](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
