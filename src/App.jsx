@@ -1,33 +1,199 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react"
+import "./css/App.css"
+import Nav from "./components/Nav.jsx"
+import Search from "./components/Search.jsx"
+import Weather from "./components/Weather.jsx"
+import WeatherButton from "./components/WeatherButton.jsx"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [location, setLocation] = useState(""); // 검색어
+  const [open, setOpen] = useState(false); // 검색창
+  const [error, setError] = useState(false); // 에러상태
+  const [cityList, setCityList] = useState([
+    "Seoul",
+    "Jeju City",
+    "london",
+    "Tokyo",
+  ]); // 즐겨찾기 목록
+  const [weather, setWeather] = useState(null); // 날씨 데이터
+  const [city, setCity] = useState(""); // 도시명
+  const [activeCity, setActiveCity] = useState(""); // 즐겨찾기 활성화
+  
+  const apiKey = import.meta.env.VITE_API_KEY;
+
+  // 현재 위치 불러오기
+  const getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      let lat = position.coords.latitude;
+      let lon = position.coords.longitude;
+      // console.log("현재 위치는 ?", lat, lon);
+      getWeatherByCurrentLocation(lat, lon);
+    });
+  };
+
+  // 현재 위치 날씨 불러오기
+  const getWeatherByCurrentLocation = (lat, lon) => {
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&lang=kr`;
+
+    fetch(url)
+      .then((res) => res.json()) // json포맷으로 변환
+      .then((data) => {
+        setWeather(data);
+        return;
+      })
+      .catch(() => {
+        setError("날씨 정보를 가져올 수 없습니다.");
+        console.log("에러");
+      });
+  };
+
+  
+  // 즐겨찾기 목록
+  const handleCityChange = (city) => {
+    if (city === "current") {
+      setCity("");
+    } else {
+      setCity(city);
+      setActiveCity(city);
+    }
+  };
+  useEffect(() => {
+    if (city == "") {
+      getCurrentLocation();
+    } else {
+      getWeatherByCity();
+    }
+  }, [city]);
+
+  // 내가 저장한 지역 날씨 불러오기
+  const getWeatherByCity = () => {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&lang=kr`;
+  
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        setWeather(data);
+      })
+      .catch(() => {
+        console.log("에러");
+      });
+  };
+
+  const [searchedCities, setSearchedCities] = useState([]);
+
+  // 날씨 요청하기
+  const fetchWeather = () => {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&lang=kr`;
+
+    fetch(url)
+      .then((res) => res.json()) // json포맷으로 변환
+      .then((data) => {
+        if (data.cod === "404") {
+          // 검색어가 포함된 도시 목록을 API에서 가져와서 필터링합니다.
+          const searchTerm = location.toLowerCase();
+          const filteredCities = cityList.filter(city => city.toLowerCase().includes(searchTerm));
+          setSearchedCities(filteredCities);
+  
+          setWeather(null);
+          return;
+        }
+  
+        setWeather(data);
+      })
+      .catch(() => {
+        setError("날씨 정보를 가져올 수 없습니다.");
+        console.log("에러");
+      });
+  };
+
+  // 입력함수
+  const handleLocationChange = (e) => {
+    setLocation(e.target.value);
+  };
+
+  // 전송버튼
+  const handleWeatherSearch = (e) => {
+    e.preventDefault();
+    fetchWeather();
+    setActiveCity(""); 
+  };
+
+  // 즐겨찾기 추가 이벤트
+  const onAdd = (newCity) => {
+    if (!cityList.includes(newCity)) {
+      setCityList([...cityList, newCity]); // 새로운 도시를 추가
+      alert("추가되었습니다.");
+    } else {
+      alert("이미 저장한 지역입니다.");
+    }
+  };
+
+  // 즐겨찾기 삭제 이벤트
+  const onRemove = (removedCity) => {
+    const confirmDelete = window.confirm("선택한 지역을 삭제하시겠습니까?");
+    if (confirmDelete) {
+      setCityList(cityList.filter((city) => city !== removedCity));
+      alert("삭제되었습니다.");
+    }
+  };
+
+  // 즐겨찾기 수정 버튼
+  const [edit, setEdit] = useState(false);
+  const toggleEdit = () => setEdit(!edit);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Nav
+        open={open}
+        setOpen={setOpen}
+        getCurrentLocation={getCurrentLocation}
+      />
+      <main>
+        <div className="wrap">
+          <div className="container">
+            {open ? (
+              <Search
+                handleLocationChange={handleLocationChange}
+                handleWeatherSearch={handleWeatherSearch}
+                location={location}
+              />
+            ) : null}
+            <div className="weather">
+              {weather ? (
+                <Weather 
+                  weather={weather}
+                  onAdd={onAdd}
+                  setActiveCity={setActiveCity}
+                  />
+              ) : (
+                <div className="searchResult">
+                  {searchedCities.length > 0 ? (
+                    <ul className="searchResult_inner">
+                      {searchedCities.map((city, index) => (
+                        <li key={index}>{city}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="err_msg">검색 결과가 없습니다.</p>
+                  )}
+                </div>
+              )}
+              {error && <p>{error}</p>}
+            </div>
+            <div className="myList">
+              <WeatherButton
+                cityList={cityList}
+                activeCity={activeCity}
+                handleCityChange={handleCityChange}
+                onRemove={onRemove}
+                key={city}
+                edit={edit}
+                toggleEdit={toggleEdit}
+              />
+            </div>
+          </div>
+        </div>
+      </main>
     </>
   )
 }
